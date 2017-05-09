@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Speed Test</title>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body ng-app="TestApp">
+    <base href="./">
+    <div class="container" ng-controller="TestController">
+      <div class="start" ng-class="{'active' : screen == 'start'}">
+        <div id="intro">Check how fast you can pick numbers in ascending order.</div>
+        <div class="button" ng-click="screen='level'">START</div>
+      </div>
+      <div class="start" ng-class="{'active' : screen == 'level'}">
+        <h1>LEVEL</h1>
+        <div class="button" ng-click="chooseLevel(3, 3)">EASY</div>
+        <div class="button" ng-click="chooseLevel(4, 5)">MEDIUM</div>
+        <div class="button" ng-click="chooseLevel(7, 7)">HARD</div>
+      </div>
+      <div class="play" ng-class="{'active' : screen == 'play'}">
+        <div class="timer">
+          {{time}}s
+        </div>
+        <div class="board">
+          <div class="row" ng-repeat="n in [] | range:rowCount">
+            <div class="cell" 
+                 ng-class="{'correct' : status[$parent.$index * colCount + $index] == 'correct',
+                           'incorrect' : status[$parent.$index * colCount + $index] == 'incorrect'}" 
+                 ng-click="check($parent.$index * colCount + $index)" 
+                 ng-style="{'width' : cellSize, 'height' : cellSize, 'line-height' : cellSize}" 
+                 ng-repeat="n in [] | range:colCount">
+              {{randomArray[$parent.$index * colCount + $index]}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="done" ng-class="{'active' : screen == 'done'}">
+        <h1>Congrats!!</h1>
+        <p>You have finished the challenge in {{time}} seconds</p>
+        <div class="button" ng-click="screen='level'">TRY AGAIN</div>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="./scripts/app.js"></script>
+    <script src="./scripts/TestController.js"></script>
+  </body>
+</html>
